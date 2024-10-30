@@ -1,0 +1,50 @@
+id: 0633292e-b7e5-4fe1-a5c6-d72da1ff470d
+timestamp: 2024-10-30T20:05:34.773Z
+source: TAP-GUI
+username: guest
+options:
+  projectName: tanzu-java-web-app
+  javaVersion: "21"
+  buildTool: gradle
+  nativeBuild: false
+  includeBuildToolWrapper: true
+  includeDevContainer: false
+  ide: vscode
+accelerator:
+  name: tanzu-java-web-app
+  git:
+    url: https://github.com/vmware-tanzu/application-accelerator-samples.git
+    subPath: tanzu-java-web-app
+    ref: tap-og
+    commit: 3d9af1c116314db20f5cc125108219709010b249
+fragments:
+  - name: build-wrapper-gradle
+    git:
+      url: https://github.com/vmware-tanzu/application-accelerator-samples.git
+      subPath: fragments/build-wrapper-gradle
+      ref: tap-og
+      commit: 3d9af1c116314db20f5cc125108219709010b249
+  - name: build-wrapper-maven
+    git:
+      url: https://github.com/vmware-tanzu/application-accelerator-samples.git
+      subPath: fragments/build-wrapper-maven
+      ref: tap-og
+      commit: 3d9af1c116314db20f5cc125108219709010b249
+  - name: devcontainer
+    git:
+      url: https://github.com/vmware-tanzu/application-accelerator-samples.git
+      subPath: fragments/devcontainer
+      ref: tap-og
+      commit: 3d9af1c116314db20f5cc125108219709010b249
+  - name: java-version
+    git:
+      url: https://github.com/vmware-tanzu/application-accelerator-samples.git
+      subPath: fragments/java-version
+      ref: tap-og
+      commit: 3d9af1c116314db20f5cc125108219709010b249
+  - name: tap-workload
+    git:
+      url: https://github.com/vmware-tanzu/application-accelerator-samples.git
+      subPath: fragments/tap-workload
+      ref: tap-og
+      commit: 3d9af1c116314db20f5cc125108219709010b249
