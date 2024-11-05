@@ -1,0 +1,40 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: developer-defined-tekton-pipeline
+  namespace: hello-world-app
+  labels:
+    apps.tanzu.vmware.com/pipeline: test     # (!) required
+spec:
+  params:
+    - name: source-url                       # (!) required
+    - name: source-revision                  # (!) required
+  tasks:
+    - name: test
+      params:
+        - name: source-url
+          value: $(params.source-url)
+        - name: source-revision
+          value: $(params.source-revision)
+      taskSpec:
+        params:
+          - name: source-url
+          - name: source-revision
+        steps:
+          - name: test
+            image: gradle                         # Choose an apporpriate base image to run your tests
+            script: |-                             # Customize whatever is needed here for your script 
+              echo 'Your test script goes here!' 
+
+              cd `mktemp -d`
+              wget -qO- $(params.source-url) | tar xvz -m
+              ./gradlew test
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000  # Default Gradle UID
+              capabilities:
+                drop:
+                  - ALL
+              allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
