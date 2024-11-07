@@ -3,6 +3,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.5"
     id("org.graalvm.buildtools.native") version "0.10.2"
     id("java")
+    id("maven-publish")
 }
 
 group = "com.vmware.tap.accelerators"
@@ -13,19 +14,37 @@ springBoot {
 	buildInfo()
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
 repositories {
-    mavenCentral()
+     maven {
+         url = uri("https://artifactory.tanzu.home/artifactory/gradle-dev/")
+         credentials {
+            username = System.getenv("ARTIFACTORY_USER")
+            password = System.getenv("ARTIFACTORY_PASSWORD")
+         }
+     }
 }
 
 dependencies {
     // Spring
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.3.5")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.3.5")
+
     // Observability support
-    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.13.6")
 
     // Test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.3.5")
 }
 
 tasks.withType<Test> {
