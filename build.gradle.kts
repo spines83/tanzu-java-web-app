@@ -28,7 +28,7 @@ publishing {
 repositories {
      maven {
          //url = uri("https://artifactory.tanzu.home/artifactory/gradle-dev-mirror/")
-         url = uri("http://10.0.189.49/artifactory/gradle-dev-mirror/")
+         url = uri("http://10.0.189.49/artifactory/gradle-dev/")
          credentials {
             username = System.getenv("ARTIFACTORY_USER")
             password = System.getenv("ARTIFACTORY_PASSWORD")
