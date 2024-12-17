@@ -39,5 +39,5 @@ build/
 ### VS Code ###
 .vscode/
 
-#### Misc ####
+### Misc ###
 tmp/
