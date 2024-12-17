@@ -43,6 +43,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.3.5")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.3.5")
 
+    // AWS SDK
+    implementation("software.amazon.awssdk:s3:2.20.37")
+    
     // Observability support
     runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.13.6")
 

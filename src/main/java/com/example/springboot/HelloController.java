@@ -11,9 +11,4 @@ public class HelloController {
 		return "Greetings from Spring Boot + Tanzu!";
 	}
 
-	@RequestMapping("/hello")
-	public void write_sample() {
-		return "Wrote sample file to S3";
-	}
-
 }
