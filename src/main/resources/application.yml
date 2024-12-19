@@ -1,6 +1,12 @@
 spring:
   application:
     name: tanzu-java-web-app
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+  flyaway:
+    enabled: true
 management:
   endpoints:
     web:

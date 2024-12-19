@@ -3,6 +3,9 @@ package com.example.springboot;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.springboot.data.FileUpload;
+import com.example.springboot.data.FileUploadRepository;
+
 import io.micrometer.core.ipc.http.HttpSender.Response;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -14,13 +17,18 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class S3Controller {
+
+    @Autowired
+    private FileUploadRepository fileUploadRepository;
 
     private final S3Client s3Client;
 
@@ -40,6 +48,7 @@ public class S3Controller {
 
 	@PostMapping("/upload")
 	public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
+
 		// Assume the bucket is already created
         String fileName = file.getOriginalFilename();
 
@@ -53,6 +62,16 @@ public class S3Controller {
                     .build(),
                 RequestBody.fromBytes(file.getBytes())
             );
+
+            FileUpload fileUpload = new FileUpload();
+
+            fileUpload.setFileName(fileName);
+            fileUpload.setBucketName(System.getenv("MINIO_BUCKET_NAME"));
+            fileUpload.setContentType(file.getContentType());
+            fileUpload.setFileSize(file.getSize());
+            fileUpload.setUploadTime(LocalDateTime.now());
+
+            fileUploadRepository.save(fileUpload);
 
             return ResponseEntity.ok("File uploaded successfully: " + fileName);
 
